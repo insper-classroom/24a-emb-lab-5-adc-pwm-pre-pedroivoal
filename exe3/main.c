@@ -8,7 +8,7 @@
 
 #include "data.h"
 
-#define FILTER_SIZE 10
+#define FILTER_SIZE 5
 
 QueueHandle_t xQueueData;
 
@@ -36,7 +36,7 @@ void process_task(void *p) {
         if (xQueueReceive(xQueueData, &data, 100)) {
             
             filter[filter_pos] = data;
-            filter_pos = (filter_pos+1)%6;
+            filter_pos = (filter_pos+1) % FILTER_SIZE;
 
             sum = 0;
             for (int i = 0; i < FILTER_SIZE; i++) {
