@@ -36,8 +36,8 @@ void process_task(void *p) {
         if (xQueueReceive(xQueueData, &data, 100)) {
             
             filter[filter_pos] = data;
-            filter_pos ++;
-            
+            filter_pos = (filter_pos+1)%6;
+
             sum = 0;
             for (int i = 0; i < FILTER_SIZE; i++) {
                 sum += filter[i];
