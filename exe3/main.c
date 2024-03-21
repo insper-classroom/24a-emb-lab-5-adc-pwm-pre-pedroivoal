@@ -7,6 +7,9 @@
 #include <stdio.h>
 
 #include "data.h"
+
+#define FILTER_SIZE 10
+
 QueueHandle_t xQueueData;
 
 // não mexer! Alimenta a fila com os dados do sinal
@@ -25,15 +28,22 @@ void data_task(void *p) {
 
 void process_task(void *p) {
     int data = 0;
+    int filter[FILTER_SIZE] = {0};  // Inicializa o filtro com zeros
+    int filter_pos = 0;              // Variável para armazenar a soma dos valores no filtro
+    int sum;
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            // implementar filtro aqui!
+            
+            filter[filter_pos] = data;
+            filter_pos ++;
+            
+            sum = 0;
+            for (int i = 0; i < FILTER_SIZE; i++) {
+                sum += filter[i];
+            }
 
-
-
-
-            // deixar esse delay!
+            printf("%d\n", sum/FILTER_SIZE);
             vTaskDelay(pdMS_TO_TICKS(50));
         }
     }
